@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SoleStyle - Premium Sneakers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            background: #f4f6f9;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        /* ===== NAVIGATION ===== */
+        nav {
+            background: #1a1a2e;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #e94560;
+            letter-spacing: 2px;
+        }
+        .logo i {
+            margin-right: 8px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: #eee;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #e94560;
+            transition: 0.3s;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #e94560;
+        }
+        .cart-icon {
+            color: #eee;
+            font-size: 1.5rem;
+            position: relative;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .cart-icon:hover {
+            color: #e94560;
+            transform: scale(1.1);
+        }
+        .cart-badge {
+            position: absolute;
+            top: -10px;
+            right: -12px;
+            background: #e94560;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 50%;
+        }
+
+        /* ===== PAGES (show/hide) ===== */
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .page.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            background: #e94560;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .btn:hover {
+            background: #c73652;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(233, 69, 96, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #e94560;
+            color: #e94560;
+        }
+        .btn-outline:hover {
+            background: #e94560;
+            color: #fff;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #16213e, #0f3460);
+            color: #fff;
+            text-align: center;
+            padding: 4rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 0 0 30px 30px;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        .hero h1 span {
+            color: #e94560;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== SECTION TITLES ===== */
+        .section-title {
+            font-size: 2.2rem;
+            margin: 2.5rem 0 1.5rem;
+            color: #1a1a2e;
+            border-left: 5px solid #e94560;
+            padding-left: 1rem;
+        }
+
+        /* ===== PRODUCT GRID ===== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .product-card h3 {
+            color: #1a1a2e;
+            margin-bottom: 0.3rem;
+        }
+        .product-card .price {
+            color: #e94560;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+        .product-card .add-btn {
+            background: #1a1a2e;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .product-card .add-btn:hover {
+            background: #e94560;
+            transform: scale(1.05);
+        }
+        .product-card .sold-out {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #e94560;
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        .product-card .category-tag {
+            display: inline-block;
+            background: #f0f0f0;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        /* ===== TESTIMONIALS ===== */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .testimonial-card {
+            background: #fff;
+            padding: 2rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            text-align: center;
+            transition: 0.3s;
+        }
+        .testimonial-card i {
+            color: #e94560;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .testimonial-card p{
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color:#444;
+
+        
+        }
+        .testimonial-card img{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border:3px solid #e94560;
+            margin-bottom:1rem;
+        }
+        .testimonial-card .stars {
+            color: #f5a623;
+            margin: 0.5rem 0;
+            font-size: 1.1rem;
+
+        }
+        .testimonial-card .name {
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+         .testimonial-card:hover {
+            transform: transalateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+         }
+
+        /* ===== NEWSLETTER ===== */
+        .newsletter {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            margin: 3rem 0;
+        }
+        .newsletter input {
+            padding: 0.8rem 1.5rem;
+            border-radius: 50px;
+            border: none;
+            width: 300px;
+            max-width: 80%;
+            margin-right: 0.5rem;
+        }
+        .newsletter .btn {
+            padding: 0.8rem 2rem;
+        }
+
+        /* ===== SHOP FILTERS ===== */
+
+/* PICHA ZA VIATU */
+.product-img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin-bottom: 0.8rem;
+    transition: 0.3s;
+}
+.product-card:hover .product-img {
+    transform: scale(1.03);
+}
+
+
+        .filters {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .filters button {
+            padding: 0.5rem 1.5rem;
+            border: 2px solid #ddd;
+            background: #fff;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 500;
+        }
+        .filters button:hover,
+        .filters button.active-filter {
+            border-color: #e94560;
+            background: #e94560;
+            color: #fff;
+        }
+
+        /* ===== ABOUT ===== */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+            align-items: center;
+        }
+        .about-grid img {
+            width: 100%;
+            border-radius: 16px;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .stat-box {
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+        .stat-box .number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #e94560;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .team-card {
+            text-align: center;
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 16px;
+        }
+        .team-card .avatar {
+            font-size: 4rem;
+        }
+
+        /* ===== CONTACT ===== */
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .contact-form textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        .contact-info {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        }
+        .contact-info i {
+            color: #e94560;
+            width: 30px;
+        }
+        .contact-info p {
+            margin: 1rem 0;
+        }
+        .map-placeholder {
+            background: #ddd;
+            height: 200px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            margin-top: 1rem;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-item {
+            background: #fff;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        .faq-question {
+            padding: 1.2rem;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            transition: 0.3s;
+        }
+        .faq-question:hover {
+            background: #f9f9f9;
+        }
+        .faq-answer {
+            padding: 0 1.2rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.3s;
+            color: #555;
+        }
+        .faq-item.open .faq-answer {
+            padding: 0 1.2rem 1.2rem;
+            max-height: 200px;
+        }
+        .faq-item.open .faq-question i {
+            transform: rotate(180deg);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #1a1a2e;
+            color: #aaa;
+            padding: 3rem 5% 1.5rem;
+            margin-top: 3rem;
+            border-top: 3px solid #e94560;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .footer-grid h4 {
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+        .footer-grid a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin: 0.4rem 0;
+            transition: 0.3s;
+        }
+        .footer-grid a:hover {
+            color: #e94560;
+        }
+        .socials i {
+            font-size: 1.5rem;
+            margin: 0 10px 0 0;
+            color: #eee;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .socials i:hover {
+            color: #e94560;
+            transform: scale(1.2);
+        }
+        .footer-bottom {
+            text-align: center;
+            border-top: 1px solid #333;
+            padding-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .about-grid,
+            .contact-wrapper {
+                grid-template-columns: 1fr;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .nav-links {
+                gap: 1rem;
+                justify-content: center;
+            }
+            nav {
+                justify-content: center;
+            }
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            .newsletter input {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVIGATION ===== -->
+    <nav>
+        <div class="logo"><i class="fas fa-shoe-prints"></i>SoleStyle</div>
+        <ul class="nav-links">
+            <li><a class="active" data-page="home">Home</a></li>
+            <li><a data-page="shop">Shop</a></li>
+            <li><a data-page="about">About</a></li>
+            <li><a data-page="contact">Contact</a></li>
+        </ul>
+        <div class="cart-icon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartCount">0</span>
+        </div>
+    </nav>
+
+    <!-- ===== PAGE: HOME ===== -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <h1>Step Into <span>Style</span></h1>
+            <p>Premium sneakers for the modern stride — comfort meets street.</p>
+            <button class="btn" onclick="navigateTo('shop')">Shop Now</button>
+        </section>
+
+        <div class="container">
+            <h2 class="section-title"> Bestsellers</h2>
+            <div class="product-grid" id="homeProducts"></div>
+
+            <h2 class="section-title"> What Our Customers Say</h2>
+            
+            
+            <div class="testimonial-grid">
+
+                <!--customer1-->
+                <div class="testimonial-card">
+                    <img src="images/nasri.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"Best sneakers I've ever worn. Super comfy and stylish!"</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="name">— Nasri.</div>
+                </div>
+
+                <!--customer2-->
+                <div class="testimonial-card">
+                    <img src="images/leyla.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"Fast shipping and great quality. Will buy again."</p>
+                    <div class="stars">★★★★★</div>
+                    <div class="name">— Leyla K.</div>
+                </div>
+
+                <!--customer3-->
+                <div class="testimonial-card">
+                   <img src="images/hope.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"SoleStyle is my go-to for sneakers. Love the designs!"</p>
+                    <div class="stars">★★★★☆</div>
+                    <div class="name">— Hope M.</div>
+                </div>
+            </div>
+
+            <div class="newsletter">
+                <h2>Stay in the Loop</h2>
+                <p>Subscribe for exclusive drops and 10% off your first order.</p>
+                <input type="email" placeholder="Your email address" />
+                <button class="btn" onclick="alert('Subscribed! (demo)')">Subscribe</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE: SHOP ===== -->
+    <div id="shop" class="page">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-store"></i> All Sneakers</h2>
+            <div class="filters">
+                <button class="active-filter" data-filter="all">All</button>
+                <button data-filter="running">Running</button>
+                <button data-filter="casual">Casual</button>
+                <button data-filter="premium">Premium</button>
+            </div>
+            <div class="product-grid" id="shopProducts"></div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE: ABOUT ===== -->
+    <div id="about" class="page">
+        <div class="container">
+            <h2 class="section-title"> About SoleStyle</h2>
+            <div class="about-grid">
+                <div>
+                    <p style="font-size:1.1rem; line-height:1.8;">
+                        <strong>Founded in 2020</strong>, SoleStyle was born from a passion for sneakers and street culture. 
+                        We believe that footwear is more than just fashion — it's a statement of who you are.
+                    </p>
+                    <p style="margin-top:1rem; line-height:1.8;">
+                        Our mission is to bring <strong>high-quality, affordable sneakers</strong> to everyone, 
+                        with a focus on comfort, durability, and cutting-edge design. Every pair is curated 
+                        with care, ensuring you step out in confidence.
+                    </p>
+                    <div class="stats">
+                        <div class="stat-box"><div class="number">5K+</div>Happy Customers</div>
+                        <div class="stat-box"><div class="number">120+</div>Styles Available</div>
+                        <div class="stat-box"><div class="number">4.9★</div>Average Rating</div>
+                    </div>
+                </div>
+                <div style="background:#1a1a2e; border-radius:16px; padding:3rem; text-align:center; color:#fff;">
+                    <i class="fas fa-shoe-prints" style="font-size:5rem; color:#e94560;"></i>
+                    <p style="margin-top:1rem; font-size:1.2rem;">Built by sneakerheads, for sneakerheads.</p>
+                </div>
+            </div>
+
+
+            <!--TEAM-->
+
+            <h2 class="section-title">Meet the Team</h2>
+            <div class="team-grid">
+                   
+
+                  <!--member1-->
+                <div class="testimonial-card">
+                    <img src="images/hendry.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"OWNER"</p>
+                   
+                    <div class="name">—Hendry.</div>
+                </div>
+
+
+                  <!--member2-->
+                <div class="testimonial-card">
+                    <img src="images/hope.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"Customer Services"</p>
+                
+                    <div class="name">—Hope M.</div>
+                </div>
+
+
+                  <!--member3-->
+                <div class="testimonial-card">
+                    <img src="images/jose.jpg">
+                    <i class="fas fa-quote-left"></i>
+                    <p>"Delivery Guy"</p>
+                    
+                    <div class="name">— Alex M.</div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE: CONTACT ===== -->
+    <div id="contact" class="page">
+        <div class="container">
+            <h2 class="section-title"><i class="fas fa-envelope"></i> Get in Touch</h2>
+            <div class="contact-wrapper">
+                <div>
+                    <form class="contact-form" onsubmit="event.preventDefault(); alert('✅ Message sent! (demo)');">
+                        <input type="text" placeholder="Your Name" required />
+                        <input type="email" placeholder="Your Email" required />
+                        <input type="text" placeholder="Subject" />
+                        <textarea placeholder="Your Message..." required></textarea>
+                        <button class="btn" type="submit">Send Message</button>
+                    </form>
+                </div>
+                <div class="contact-info">
+                    <h3> Visit Us</h3>
+                    <p><i class="fas fa-map-pin"></i> POSTA Dar Es Salaam</p>
+                    <p><i class="fas fa-phone"></i> +255 750180184</p>
+                    <p><i class="fas fa-envelope"></i> dafasonabdi@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon–Sat: 9AM – 8PM</p>
+                    <div class="map-placeholder">
+                        <i class="fas fa-map" style="font-size:3rem; margin-right:10px;"></i> Google Maps 
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">FAQ</h2>
+            <div class="faq-item open">
+                <div class="faq-question">How long does shipping take? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Standard shipping takes 3–5 business days. Express options available at checkout.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What's your return policy? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">We offer 30-day hassle-free returns. Shoes must be unworn and in original packaging.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Do you ship internationally? <i class="fas fa-chevron-down"></i></div>
+                <div class="faq-answer">Yes! We ship to over 40 countries worldwide. Shipping costs calculated at checkout.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h4>SoleStyle</h4>
+                    <p style="color:#aaa;">Premium sneakers for every stride.</p>
+                    <div class="socials" style="margin-top:0.5rem;">
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-youtube"></i>
+                        <i class="fab fa-tiktok"></i>
+                    </div>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+                    <a onclick="navigateTo('home')">Home</a>
+                    <a onclick="navigateTo('shop')">Shop</a>
+                    <a onclick="navigateTo('about')">About</a>
+                    <a onclick="navigateTo('contact')">Contact</a>
+                </div>
+                <div>
+                    <h4>Support</h4>
+                    <a>FAQs</a>
+                    <a>Returns</a>
+                    <a>Shipping</a>
+                    <a>Privacy Policy</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 SoleStyle. All rights reserved. created by dafa +255686265676
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ===== PRODUCT DATA =====
+       const allProducts = [
+    { 
+        name: 'Air Zoom X', 
+        price: 99.99, 
+        image: 'images/running1.jpg',  // <-- Badilisha na jina la picha yako
+        category: 'running' 
+    },
+    { 
+        name: 'Court Vision', 
+        price: 87.99, 
+        image: 'images/casual1.jpg',
+        category: 'casual' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 123.99, 
+        image: 'images/premium1.jpg',
+        category: 'premium' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 67.99, 
+        image: 'images/casual2.jpg',
+        category: 'casual' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 49.99, 
+        image: 'images/running2.jpg',
+        category: 'running' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 77.99, 
+        image: 'images/premium2.jpg',
+        category: 'premium' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 76.99, 
+        image: 'images/premium3.jpg',
+        category: 'premium' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 87.99, 
+        image: 'images/casual3.jpg',
+        category: 'casual' 
+    },
+
+     { 
+        name: 'Court Vision', 
+        price: 89.99, 
+        image: 'images/running3.jpg',
+        category: 'running' 
+    },
+
+    
+];
+
+        // ===== CART =====
+        let cartCount = 0;
+        const badge = document.getElementById('cartCount');
+
+       
+
+        function renderProducts(containerId, productList, showSoldOut = true) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    productList.forEach((p, index) => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            ${p.soldOut ? '<span class="sold-out">Sold Out</span>' : ''}
+            <img src="${p.image}" alt="${p.name}" class="product-img" />
+            <span class="category-tag">${p.category}</span>
+            <h3>${p.name}</h3>
+            <div class="price">$${p.price.toFixed(2)}</div>
+            <button class="add-btn" data-name="${p.name}" ${p.soldOut ? 'disabled style="opacity:0.5;"' : ''}>
+                ${p.soldOut ? 'Out of Stock' : '<i class="fas fa-plus"></i> Add to Cart'}
+            </button>
+        `;
+        container.appendChild(card);
+    });
+
+    // Add to cart events
+    container.querySelectorAll('.add-btn:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            cartCount++;
+            badge.textContent = cartCount;
+            this.innerHTML = '<i class="fas fa-check"></i> Added!';
+            this.style.background = '#e94560';
+            setTimeout(() => {
+                this.innerHTML = '<i class="fas fa-plus"></i> Add to Cart';
+                this.style.background = '#1a1a2e';
+            }, 800);
+        });
+    });
+
+    // Click card to show details
+    container.querySelectorAll('.product-card').forEach((card, i) => {
+        card.addEventListener('click', function() {
+            const p = productList[i] || allProducts[i];
+            if (p) alert(`📦 ${p.name}\nPrice: $${p.price.toFixed(2)}\nCategory: ${p.category}\n${p.soldOut ? '🚫 Sold Out' : '✅ In Stock'}`);
+        });
+    });
+}
+
+        // ===== NAVIGATION =====
+        function navigateTo(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+            document.querySelector(`.nav-links a[data-page="${pageId}"]`).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                navigateTo(page);
+                // Re-render shop if needed
+                if (page === 'shop') applyFilter('all');
+                if (page === 'home') renderProducts('homeProducts', allProducts.slice(0, 4));
+            });
+        });
+
+        // ===== SHOP FILTERS =====
+        function applyFilter(category) {
+            document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active-filter'));
+            document.querySelector(`.filters button[data-filter="${category}"]`).classList.add('active-filter');
+            const filtered = category === 'all' ? allProducts : allProducts.filter(p => p.category === category);
+            renderProducts('shopProducts', filtered);
+        }
+
+        document.querySelectorAll('.filters button').forEach(btn => {
+            btn.addEventListener('click', function() {
+                applyFilter(this.dataset.filter);
+            });
+        });
+
+        // ===== FAQ ACCORDION =====
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', function() {
+                this.parentElement.classList.toggle('open');
+            });
+        });
+
+        // ===== CART ICON =====
+        document.querySelector('.cart-icon').addEventListener('click', function() {
+            alert(`🛒 You have ${cartCount} item(s) in your cart.`);
+        });
+
+        // ===== INIT =====
+        renderProducts('homeProducts', allProducts.slice(0, 4));
+        renderProducts('shopProducts', allProducts);
+        applyFilter('all');
+
+        console.log('🔥 SoleStyle fully loaded — multi-page demo by AI');
+    </script>
+
+</body>
+</html>
